@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f2f5;
+    }
+
+    .page {
+      display: none;
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: auto;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HOME PAGE */
+    #home {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    #home h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    #home p {
+      font-size: 1.2em;
+      color: #555;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* TO-DO PAGE */
+    #todoPage h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #taskInput {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #addBtn {
+      padding: 10px 15px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    #addBtn:hover {
+      background-color: #218838;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      padding: 12px;
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li.completed .task-text {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .task-text {
+      flex: 1;
+      cursor: pointer;
+      padding-right: 10px;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 30px auto 0;
+      background: #6c757d;
+    }
+
+    .back-btn:hover {
+      background: #5a6268;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home Page -->
+  <div class="page active" id="home">
+    <h1>Welcome to To-Do App</h1>
+    <p>Stay productive and organize your day efficiently!</p>
+    <button class="btn" onclick="navigateTo('todoPage')">Get Started</button>
+  </div>
+
+  <!-- To-Do List Page -->
+  <div class="page" id="todoPage">
+    <h2>My To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Enter a new task">
+    <button id="addBtn" onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+    <button class="btn back-btn" onclick="navigateTo('home')">Back to Home</button>
+  </div>
+
+  <script>
+    function navigateTo(pageId) {
+      const pages = document.querySelectorAll(".page");
+      pages.forEach(p => p.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+    }
+
+    function addTask() {
+      const input = document.getElementById("taskInput");
+      const taskText = input.value.trim();
+
+      if (taskText === "") {
+        alert("Please enter a task.");
+        return;
+      }
+
+      const li = document.createElement("li");
+
+      const span = document.createElement("span");
+      span.textContent = taskText;
+      span.className = "task-text";
+      span.onclick = () => li.classList.toggle("completed");
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.className = "delete-btn";
+      deleteBtn.onclick = () => li.remove();
+
+      li.appendChild(span);
+      li.appendChild(deleteBtn);
+      document.getElementById("taskList").appendChild(li);
+
+      input.value = "";
+    }
+  </script>
+</body>
+</html>
+
